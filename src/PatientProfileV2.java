@@ -1,49 +1,40 @@
-public class PatientProfileV2 implements MedicalRecord, Versioned, Confidential<PatientProfileV2> {
-    private String patientId;
-    private String name;
-    private String ssn;
+public class PatientProfileV2 extends PatientProfile implements Confidential<PatientProfileV2> {
     private String allergyHistory;
-    private int securityLevel = 3;
     private String emergencyNumber;
+    private int securityLevel = 3;
+    private final int version = 2;
 
-    public PatientProfileV2(String patientId, String name, String ssn, String allergyHistory, String emergencyNumber) {
-        this.patientId = patientId;
-        this.name = name;
-        this.ssn = ssn;
+    public PatientProfileV2(String patientId, String name, String ssn,
+                            String allergyHistory, String emergencyNumber) {
+        super(patientId, name, ssn);
         this.allergyHistory = allergyHistory;
         this.emergencyNumber = emergencyNumber;
     }
 
     public PatientProfileV2(PatientProfileV2 source) {
-        this.patientId = source.patientId;
-        this.name = source.name;
-        this.ssn = source.ssn;
+        super(source);
         this.allergyHistory = source.allergyHistory;
-        this.securityLevel = source.securityLevel;
         this.emergencyNumber = source.emergencyNumber;
+        this.securityLevel = source.securityLevel;
     }
 
     @Override
-    public String getPatientId() { return patientId; }
-    @Override
-    public int getVersion() { return 2; }
-    @Override
-    public int getSecurityLevel() { return securityLevel; }
+    public int getSecurityLevel() { return this.securityLevel; }
 
     @Override
     public void maskSensitiveData() {
-        if (this.ssn != null) this.ssn = "******";
+        if (this.ssn != null) this.ssn = "[REDACTED]";
         if (this.allergyHistory != null) this.allergyHistory = "[REDACTED]";
-        if (this.emergencyNumber!= null) this.emergencyNumber = "*******";
+        if (this.emergencyNumber != null) this.emergencyNumber = "[REDACTED]";
     }
 
     @Override
-    public PatientProfileV2 copy() {
-        return new PatientProfileV2(this);
-    }
+    public PatientProfileV2 copy() { return new PatientProfileV2(this); }
 
     @Override
     public String toString() {
-        return "[V2] Patient: " + name + " | SSN: " + ssn + " | Allergies: " + allergyHistory + " | Emergency Number : " + emergencyNumber;
+        return "[V" + version + "]" + super.toString()
+                + " | Allergy: " + allergyHistory
+                + " | Emergency: " + emergencyNumber;
     }
 }

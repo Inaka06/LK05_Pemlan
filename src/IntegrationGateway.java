@@ -15,7 +15,7 @@ public class IntegrationGateway<T extends MedicalRecord & Versioned & Confidenti
         String warning = null;
         if (accessLevel < dupeData.getSecurityLevel()) {
             dupeData.maskSensitiveData();
-            warning = "Some data are redacted due to lack of access level";
+            warning = "Some data has been redacted due to insufficient access level";
         }
 
         return new SecureResponse<>(true, dupeData, warning);
