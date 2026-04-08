@@ -12,7 +12,7 @@ class MainSimulation {
         showResult(gateway2.fetchData("P002", 2), 2); //test dengan accessLevel rendah
         showResult(gateway2.fetchData("P002", 4), 4); //test sempurna
 
-        PatientProfileV3 trump = new PatientProfileV3("P003", "Trump", "76240432", "China", "8938763", "9999999999", "HAMBURGIR");
+        PatientProfileV3 trump = new PatientProfileV3("P003", "Trump", "76240432", "Paracetamol", "8938763", "9999999999", "HAMBURGIR");
         IntegrationGateway<PatientProfileV3> gateway3 = new IntegrationGateway<>(trump);
         showResult(gateway3.fetchData("P001", 9), 9); //test dengan patientId dari objek lain tapi level akses tinggi
         showResult(gateway3.fetchData("P003", 6), 6); //test dengan accessLevel rendah
